@@ -1,4 +1,0 @@
-str="42"
-print(int(str))
-
-
