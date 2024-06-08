@@ -1,0 +1,8 @@
+def master_theorem(n):
+    if n == 1:
+        return 1
+    return 2 * master_theorem(n // 2) + n  # O(n log n)
+
+# Test
+print(master_theorem(8))  # O(n log n)
+
