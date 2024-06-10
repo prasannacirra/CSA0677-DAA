@@ -1,0 +1,20 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def is_valid_sequence(root, arr):
+    def dfs(node, i):
+        if not node or i == len(arr) or node.val != arr[i]:
+            return False
+        if not node.left and not node.right and i == len(arr) - 1:
+            return True
+        return dfs(node.left, i + 1) or dfs(node.right, i + 1)
+
+    return dfs(root, 0)
+
+# Example usage:
+root = TreeNode(0, TreeNode(1, TreeNode(0, None, TreeNode(1)), TreeNode(1, TreeNode(0), TreeNode(0))), TreeNode(0, TreeNode(0)))
+arr = [0, 1, 0, 1]
+print(is_valid_sequence(root, arr))  # Output: True
