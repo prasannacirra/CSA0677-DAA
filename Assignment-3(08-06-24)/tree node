@@ -1,0 +1,15 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def isValidSequence(root, arr):
+    def check_path(node, index):
+        if not node or node.val != arr[index]:
+            return False
+        if index == len(arr) - 1:
+            return not node.left and not node.right
+        return check_path(node.left, index + 1) or check_path(node.right, index + 1)
+
+    return check_path(root, 0)
