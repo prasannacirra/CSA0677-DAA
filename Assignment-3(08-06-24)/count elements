@@ -1,0 +1,6 @@
+def count_elements(arr):
+    return sum(1 for x in arr if x + 1 in arr)
+
+# Example
+arr = [1, 2, 3, 3, 4, 4, 5]
+print(count_elements(arr))  # Output: 6
