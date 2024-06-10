@@ -1,0 +1,8 @@
+def perform_string_shifts(s, shift):
+    net_shift = sum(amount if direction == 1 else -amount for direction, amount in shift)
+    net_shift %= len(s)
+    return s[-net_shift:] + s[:-net_shift]
+
+# Example usage:
+print(perform_string_shifts("abc", [[0, 1], [1, 2]]))  # Output: "cab"
+print(perform_string_shifts("abcdefg", [[1, 1], [1, 1], [0, 2], [1, 3]]))  # Output: "efgabcd"
