@@ -1,0 +1,24 @@
+def max_diff(num):
+    s = str(num)
+    for digit in s:
+        if digit != '9':
+            max_num = int(s.replace(digit, '9'))
+            break
+    else:
+        max_num = num
+    
+    if s[0] != '1':
+        min_num = int(s.replace(s[0], '1'))
+    else:
+        for digit in s[1:]:
+            if digit != '0' and digit != '1':
+                min_num = int(s.replace(digit, '0'))
+                break
+        else:
+            min_num = num
+
+    return max_num - min_num
+
+# Example usage:
+print(max_diff(555))  # Output: 888
+print(max_diff(9))  # Output: 8
