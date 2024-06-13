@@ -1,0 +1,6 @@
+def min_penalty(customers, j):
+    penalty = 0
+    for i in range(len(customers)):
+        if (i < j and customers[i] == 'N') or (i >= j and customers[i] == 'Y'):
+            penalty += 1
+    return penalty
