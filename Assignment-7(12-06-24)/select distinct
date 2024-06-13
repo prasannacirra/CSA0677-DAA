@@ -1,0 +1,5 @@
+SELECT DISTINCT o1.customer_id
+FROM Orders o1
+JOIN Orders o2 ON o1.customer_id = o2.customer_id
+WHERE o1.order_date < o2.order_date
+AND o1.price < o2.price
