@@ -1,0 +1,5 @@
+CREATE TABLE Elements (
+    symbol VARCHAR PRIMARY KEY,
+    type ENUM('Metal', 'Nonmetal', 'Noble'),
+    electrons INT
+);
