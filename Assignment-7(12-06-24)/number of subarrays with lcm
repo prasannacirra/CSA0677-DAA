@@ -1,0 +1,23 @@
+from math import gcd
+
+def count_subarrays_with_lcm_k(nums, k):
+    def lcm(a, b):
+        return abs(a*b) // gcd(a, b)
+    
+    def count_divisible(arr, k):
+        count = 0
+        for i in range(len(arr)):
+            current_lcm = 1
+            for j in range(i, len(arr)):
+                current_lcm = lcm(current_lcm, arr[j])
+                if current_lcm == k:
+                    count += 1
+        return count
+    
+    return count_divisible(nums, k)
+
+# Example Usage
+nums = [2, 3, 5]
+k = 6
+result = count_subarrays_with_lcm_k(nums, k)
+print(result)
