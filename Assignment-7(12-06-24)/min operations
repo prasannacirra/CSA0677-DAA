@@ -1,0 +1,27 @@
+class Solution:
+    def minOperations(self, root: Optional[TreeNode]) -> int:
+        def inorder(node, level):
+            if not node:
+                return
+            inorder(node.left, level + 1)
+            levels[level].append(node.val)
+            inorder(node.right, level + 1)
+
+        def is_sorted(arr):
+            return all(arr[i] < arr[i + 1] for i in range(len(arr) - 1))
+
+        def count_operations(arr):
+            operations = 0
+            while not is_sorted(arr):
+                for i in range(len(arr) - 1):
+                    if arr[i] > arr[i + 1]:
+                        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                        operations += 1
+            return operations
+
+        levels = defaultdict(list)
+        inorder(root, 0)
+        total_operations = 0
+        for level in levels.values():
+            total_operations += count_operations(level)
+        return total_operations
