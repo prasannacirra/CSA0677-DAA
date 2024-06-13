@@ -1,0 +1,19 @@
+class Solution:
+    def closestKValues(self, root: TreeNode, target: float, k: int) -> List[int]:
+        def inorder(node):
+            return inorder(node.left) + [node.val] + inorder(node.right) if node else []
+        
+        def closest(node, target, k):
+            if not node:
+                return []
+            left = closest(node.left, target, k)
+            if len(left) == k:
+                if abs(left[0] - target) < abs(node.val - target):
+                    return left
+                else:
+                    return left[:-1] + [node.val] + closest(node.right, target, k - 1)
+            right = closest(node.right, target, k - len(left) - 1)
+            return left + [node.val] + right
+        
+        values = inorder(root)
+        return closest(root, target, k)
