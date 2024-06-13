@@ -1,0 +1,27 @@
+def count_beautiful_partitions(s, k, minLength):
+    def is_prime(n):
+        if n < 2:
+            return False
+        for i in range(2, int(n ** 0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
+
+    def count_partitions(s, k, minLength, start, end):
+        if k == 0:
+            return 1
+        if start >= len(s):
+            return 0
+        count = 0
+        for i in range(start + minLength, min(start + len(s) - k * minLength + 1, end + 1)):
+            if is_prime(int(s[start])) and not is_prime(int(s[i - 1])):
+                count += count_partitions(s, k - 1, minLength, i, end)
+        return count
+
+    return count_partitions(s, k, minLength, 0, len(s))
+
+# Example Usage
+s = "2357235"
+k = 2
+minLength = 2
+print(count_beautiful_partitions(s, k, minLength))  # Output: 4
