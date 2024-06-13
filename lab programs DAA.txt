@@ -1,0 +1,597 @@
+REMOVE ELEMENTS
+
+#include <stdio.h>
+
+int removeElement(int* nums, int numsSize, int val) {
+    int i = 0; // Pointer for the position to place the next non-val element
+    for (int j = 0; j < numsSize; j++) {
+        if (nums[j] != val) {
+            nums[i] = nums[j];
+            i++;
+        }
+    }
+    return i;
+}
+
+int main() {
+    int nums[] = {3, 2, 2, 3};
+    int val = 3;
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+
+    int newLength = removeElement(nums, numsSize, val);
+
+    printf("New length: %d\n", newLength);
+    printf("Modified array: ");
+    for (int i = 0; i < newLength; i++) {
+        printf("%d ", nums[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+Sudoku Solver
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define N 9
+
+bool isSafe(int grid[N][N], int row, int col, int num) {
+    for (int x = 0; x < N; x++) {
+        if (grid[row][x] == num || grid[x][col] == num) {
+            return false;
+        }
+    }
+
+    int startRow = row - row % 3;
+    int startCol = col - col % 3;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (grid[i + startRow][j + startCol] == num) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool findEmptyLocation(int grid[N][N], int *row, int *col) {
+    for (*row = 0; *row < N; (*row)++) {
+        for (*col = 0; *col < N; (*col)++) {
+            if (grid[*row][*col] == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool solveSudoku(int grid[N][N]) {
+    int row, col;
+
+    if (!findEmptyLocation(grid, &row, &col)) {
+        return true;
+    }
+
+    for (int num = 1; num <= 9; num++) {
+        if (isSafe(grid, row, col, num)) {
+            grid[row][col] = num;
+
+            if (solveSudoku(grid)) {
+                return true;
+            }
+
+            grid[row][col] = 0;
+        }
+    }
+
+    return false;
+}
+
+void printGrid(int grid[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%2d", grid[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int grid[N][N] = {
+        {5, 3, 0, 0, 7, 0, 0, 0, 0},
+        {6, 0, 0, 1, 9, 5, 0, 0, 0},
+        {0, 9, 8, 0, 0, 0, 0, 6, 0},
+        {8, 0, 0, 0, 6, 0, 0, 0, 3},
+        {4, 0, 0, 8, 0, 3, 0, 0, 1},
+        {7, 0, 0, 0, 2, 0, 0, 0, 6},
+        {0, 6, 0, 0, 0, 0, 2, 8, 0},
+        {0, 0, 0, 4, 1, 9, 0, 0, 5},
+        {0, 0, 0, 0, 8, 0, 0, 7, 9}
+    };
+
+    if (solveSudoku(grid)) {
+        printGrid(grid);
+    } else {
+        printf("No solution exists.");
+    }
+
+    return 0;
+}
+
+
+
+Sudoku solver[another code]
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define N 9
+
+bool isSafe(char board[N][N], int row, int col, char num) {
+    for (int x = 0; x < N; x++) {
+        if (board[row][x] == num || board[x][col] == num || 
+            board[3 * (row / 3) + x / 3][3 * (col / 3) + x % 3] == num) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool solveSudoku(char board[N][N]) {
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++) {
+            if (board[row][col] == '.') {
+                for (char num = '1'; num <= '9'; num++) {
+                    if (isSafe(board, row, col, num)) {
+                        board[row][col] = num;
+                        if (solveSudoku(board)) {
+                            return true;
+                        }
+                        board[row][col] = '.';  // Backtrack
+                    }
+                }
+                return false;  // No valid number found, trigger backtracking
+            }
+        }
+    }
+    return true;  // Solved
+}
+
+void printBoard(char board[N][N]) {
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++) {
+            printf("%c ", board[row][col]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    char board[N][N] = {
+        {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+        {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+        {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+        {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+        {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+        {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+        {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+        {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+        {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+    };
+
+    if (solveSudoku(board)) {
+        printBoard(board);
+    } else {
+        printf("No solution exists");
+    }
+
+    return 0;
+}
+
+
+Count and Say
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char *countAndSay(int n) {
+    if (n == 1) {
+        return "1";
+    }
+    
+    char *prev = countAndSay(n - 1);
+    int len = strlen(prev);
+    char *result = (char *)malloc(2 * len + 1);
+    
+    int count = 1;
+    char say[2];
+    int pos = 0;
+    
+    for (int i = 0; i < len; i++) {
+        if (prev[i] == prev[i + 1]) {
+            count++;
+        } else {
+            sprintf(say, "%d", count);
+            result[pos++] = say[0];
+            result[pos++] = prev[i];
+            count = 1;
+        }
+    }
+    
+    result[pos] = '\0';
+    return result;
+}
+
+int main() {
+    int n = 5; // Change n to generate different sequences
+    char *sequence = countAndSay(n);
+    printf("The count-and-say sequence for n=%d is: %s\n", n, sequence);
+    free(sequence); // Don't forget to free the allocated memory
+    return 0;
+}
+
+
+Combination Sum
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void findCombinations(int* candidates, int candidatesSize, int target, int start, int* combination, int combinationSize, int** result, int* returnSize, int* returnColumnSizes) {
+    if (target == 0) {
+        result[*returnSize] = (int*)malloc(sizeof(int) * combinationSize);
+        for (int i = 0; i < combinationSize; i++) {
+            result[*returnSize][i] = combination[i];
+        }
+        returnColumnSizes[*returnSize] = combinationSize;
+        (*returnSize)++;
+        return;
+    }
+
+    for (int i = start; i < candidatesSize; i++) {
+        if (target - candidates[i] >= 0) {
+            combination[combinationSize] = candidates[i];
+            findCombinations(candidates, candidatesSize, target - candidates[i], i, combination, combinationSize + 1, result, returnSize, returnColumnSizes);
+        }
+    }
+}
+
+int** combinationSum(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes) {
+    *returnSize = 0;
+    int** result = (int**)malloc(sizeof(int*) * 150);
+    *returnColumnSizes = (int*)malloc(sizeof(int) * 150);
+    int* combination = (int*)malloc(sizeof(int) * 150);
+
+    findCombinations(candidates, candidatesSize, target, 0, combination, 0, result, returnSize, *returnColumnSizes);
+
+    return result;
+}
+
+int main() {
+    int candidates[] = {2, 3, 6, 7};
+    int target = 7;
+    int candidatesSize = sizeof(candidates) / sizeof(candidates[0]);
+    int returnSize;
+    int* returnColumnSizes;
+
+    int** result = combinationSum(candidates, candidatesSize, target, &returnSize, &returnColumnSizes);
+
+    printf("Output: \n");
+    printf("[");
+    for (int i = 0; i < returnSize; i++) {
+        printf("[");
+        for (int j = 0; j < returnColumnSizes[i]; j++) {
+            printf("%d", result[i][j]);
+            if (j < returnColumnSizes[i] - 1) {
+                printf(",");
+            }
+        }
+        printf("]");
+        if (i < returnSize - 1) {
+            printf(",");
+        }
+        printf("\n");
+    }
+    printf("]\n");
+
+    // Freeing memory
+    for (int i = 0; i < returnSize; i++) {
+        free(result[i]);
+    }
+    free(result);
+    free(returnColumnSizes);
+
+    return 0;
+}
+
+
+
+
+Combination Sum II
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+void findCombinations(int* candidates, int candidatesSize, int target, int* temp, int start, int tempSize, int sum, int** result, int* returnSize, int** returnColumnSizes) {
+    if (sum == target) {
+        result[*returnSize] = (int*)malloc(tempSize * sizeof(int));
+        (*returnColumnSizes)[*returnSize] = tempSize;
+        for (int i = 0; i < tempSize; i++) {
+            result[*returnSize][i] = temp[i];
+        }
+        (*returnSize)++;
+        return;
+    }
+    
+    for (int i = start; i < candidatesSize; i++) {
+        if (i > start && candidates[i] == candidates[i - 1]) {
+            continue;
+        }
+        if (sum + candidates[i] > target) {
+            break;
+        }
+        temp[tempSize] = candidates[i];
+        findCombinations(candidates, candidatesSize, target, temp, i + 1, tempSize + 1, sum + candidates[i], result, returnSize, returnColumnSizes);
+    }
+}
+
+int** combinationSum2(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes) {
+    qsort(candidates, candidatesSize, sizeof(int), compare);
+    int** result = (int**)malloc(1000 * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(1000 * sizeof(int));
+    int* temp = (int*)malloc(candidatesSize * sizeof(int));
+    *returnSize = 0;
+    
+    findCombinations(candidates, candidatesSize, target, temp, 0, 0, 0, result, returnSize, returnColumnSizes);
+    
+    return result;
+}
+
+int main() {
+    int candidates[] = {10, 1, 2, 7, 6, 1, 5};
+    int target = 8;
+    int returnSize;
+    int* returnColumnSizes;
+    
+    int** result = combinationSum2(candidates, 7, target, &returnSize, &returnColumnSizes);
+    
+    printf("[\n");
+    for (int i = 0; i < returnSize; i++) {
+        printf("[");
+        for (int j = 0; j < returnColumnSizes[i]; j++) {
+            printf("%d", result[i][j]);
+            if (j < returnColumnSizes[i] - 1) {
+                printf(",");
+            }
+        }
+        printf("]\n");
+    }
+    printf("]\n");
+    
+    return 0;
+}
+
+
+Permutations II
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+void backtrack(int* nums, int numsSize, int* used, int* path, int pathLen, int** result, int* resultSize) {
+    if (pathLen == numsSize) {
+        result[(*resultSize)] = (int*)malloc(numsSize * sizeof(int));
+        for (int i = 0; i < numsSize; i++) {
+            result[(*resultSize)][i] = path[i];
+        }
+        (*resultSize)++;
+        return;
+    }
+
+    for (int i = 0; i < numsSize; i++) {
+        if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+            continue;
+        }
+        used[i] = 1;
+        path[pathLen] = nums[i];
+        backtrack(nums, numsSize, used, path, pathLen + 1, result, resultSize);
+        used[i] = 0;
+    }
+}
+
+int** permuteUnique(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    qsort(nums, numsSize, sizeof(int), compare);
+    int** result = (int**)malloc(10000 * sizeof(int*));
+    int* used = (int*)calloc(numsSize, sizeof(int));
+    int* path = (int*)malloc(numsSize * sizeof(int));
+    *returnSize = 0;
+    backtrack(nums, numsSize, used, path, 0, result, returnSize);
+    *returnColumnSizes = (int*)malloc((*returnSize) * sizeof(int));
+    for (int i = 0; i < (*returnSize); i++) {
+        (*returnColumnSizes)[i] = numsSize;
+    }
+    return result;
+}
+
+int main() {
+    int nums[] = {1, 1, 2};
+    int returnSize;
+    int* returnColumnSizes;
+    int** result = permuteUnique(nums, 3, &returnSize, &returnColumnSizes);
+
+    printf("[");
+    for (int i = 0; i < returnSize; i++) {
+        printf("[");
+        for (int j = 0; j < 3; j++) {
+            printf("%d", result[i][j]);
+            if (j < 2) {
+                printf(",");
+            }
+        }
+        printf("]");
+        if (i < returnSize - 1) {
+            printf(",");
+        }
+    }
+    printf("]");
+
+    return 0;
+}
+
+
+Maximum Subarray
+
+#include <stdio.h>
+
+int maxSubArray(int* nums, int numsSize) {
+    int maxSum = nums[0];
+    int currentSum = nums[0];
+
+    for (int i = 1; i < numsSize; i++) {
+        currentSum = (currentSum + nums[i] > nums[i]) ? currentSum + nums[i] : nums[i];
+        maxSum = (currentSum > maxSum) ? currentSum : maxSum;
+    }
+
+    return maxSum;
+}
+
+int main() {
+    int nums[] = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    int result = maxSubArray(nums, numsSize);
+
+    printf("Output: %d\n", result);
+
+    return 0;
+}
+
+
+Length of Last Word
+
+#include <stdio.h>
+#include <string.h>
+
+int lengthOfLastWord(char *s) {
+    int length = 0;
+    int i = strlen(s) - 1;
+
+    while (i >= 0 && s[i] == ' ') {
+        i--;
+    }
+
+    while (i >= 0 && s[i] != ' ') {
+        length++;
+        i--;
+    }
+
+    return length;
+}
+
+int main() {
+    char s[] = "Hello World";
+    int length = lengthOfLastWord(s);
+    printf("Length of the last word: %d\n", length);
+    return 0;
+}
+
+
+
+Permutation Sequence
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void swap(char *a, char *b) {
+    char temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void reverse(char *start, char *end) {
+    while (start < end) {
+        swap(start, end);
+        start++;
+        end--;
+    }
+}
+
+char *getPermutation(int n, int k) {
+    char *nums = (char *)malloc(n * sizeof(char));
+    for (int i = 0; i < n; i++) {
+        nums[i] = i + '1';
+    }
+    
+    for (int i = 1; i < k; i++) {
+        next_permutation(nums, n);
+    }
+    
+    return nums;
+}
+
+void next_permutation(char *nums, int n) {
+    int i = n - 2;
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
+        i--;
+    }
+    
+    if (i >= 0) {
+        int j = n - 1;
+        while (j >= 0 && nums[j] <= nums[i]) {
+            j--;
+        }
+        swap(&nums[i], &nums[j]);
+    }
+    
+    reverse(nums + i + 1, nums + n - 1);
+}
+
+int main() {
+    int n = 3, k = 3;
+    char *result = getPermutation(n, k);
+    printf("Output: \"%s\"\n", result);
+    free(result);
+    return 0;
+}
+
+
+
+Sudoku Board Validation in C
+
+#include <stdbool.h>
+
+bool isValidSudoku(char** board, int boardSize, int* boardColSize) {
+    bool rows[9][9] = {false};
+    bool cols[9][9] = {false};
+    bool boxes[3][3][9] = {false};
+
+    for (int i = 0; i < boardSize; i++) {
+        for (int j = 0; j < *boardColSize; j++) {
+            if (board[i][j] != '.') {
+                int num = board[i][j] - '1';
+                if (rows[i][num] || cols[j][num] || boxes[i/3][j/3][num]) {
+                    return false;
+                }
+                rows[i][num] = true;
+                cols[j][num] = true;
+                boxes[i/3][j/3][num] = true;
+            }
+        }
+    }
+    return true;
+}
+
