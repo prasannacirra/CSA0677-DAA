@@ -1,0 +1,56 @@
+import math
+
+def binomial_coefficient(n, k):
+    return math.comb(n, k)
+
+n = 5
+k = 2
+result = binomial_coefficient(n, k)
+print(f"Binomial Coefficient of ({n}, {k}): {result}")
+
+  
+def bellman_ford(graph, source):
+    distance = {node: float('infinity') for node in graph}
+    distance[source] = 0
+
+    for _ in range(len(graph) - 1):
+        for u, v, weight in graph.edges:
+            if distance[u] + weight < distance[v]:
+                distance[v] = distance[u] + weight
+
+    for u, v, weight in graph.edges:
+        if distance[u] + weight < distance[v]:
+            print("Graph contains negative weight cycle")
+            return
+
+    return distance
+
+      def floyd_warshall(graph):
+    distance = [[float('infinity') for _ in range(len(graph))] for _ in range(len(graph))]
+
+    for u, v, weight in graph.edges:
+        distance[u][v] = weight
+
+    for k in range(len(graph)):
+        for i in range(len(graph)):
+            for j in range(len(graph)):
+                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])
+
+    return distance
+
+def meet_in_the_middle(arr, target):
+    half = len(arr) // 2
+    left_half = arr[:half]
+    right_half = arr[half:]
+
+    left_sums = [sum(comb) for comb in itertools.chain.from_iterable(itertools.combinations(left_half, r) for r in range(len(left_half) + 1))]
+    right_sums = [sum(comb) for comb in itertools.chain.from_iterable(itertools.combinations(right_half, r) for r in range(len(right_half) + 1))]
+
+    right_sums.sort()
+
+    count = 0
+    for left_sum in left_sums:
+        count += bisect_right(right_sums, target - left_sum)
+
+    return count
+
