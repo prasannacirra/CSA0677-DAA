@@ -1,0 +1,8 @@
+def count_strings_with_prefix(words, pref):
+    return sum(1 for word in words if word.startswith(pref))
+
+# Example
+words = ["pay", "attention", "practice", "attend"]
+pref = "at"
+output = count_strings_with_prefix(words, pref)
+print(output)
