@@ -1,0 +1,54 @@
+# Word break problem
+def word_break(s, wordDict):
+    n = len(s)
+    dp = [False] * (n + 1)
+    dp[0] = True
+    for i in range(1, n + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in wordDict:
+                dp[i] = True
+                break
+    return dp[n]
+
+# Word trap problem
+def word_trap(words):
+    def is_palindrome(word):
+        return word == word[::-1]
+    
+    def can_form_palindrome(word1, word2):
+        return is_palindrome(word1 + word2) or is_palindrome(word2 + word1)
+    
+    traps = set()
+    for i in range(len(words)):
+        for j in range(i+1, len(words)):
+            if can_form_palindrome(words[i], words[j]):
+                traps.add(words[i])
+                traps.add(words[j])
+    return traps
+
+# OBST
+def optimal_bst(keys, freq):
+    n = len(keys)
+    dp = [[0 for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        dp[i][i] = freq[i]
+    
+    for length in range(2, n+1):
+        for i in range(n-length+1):
+            j = i + length - 1
+            dp[i][j] = float('inf')
+            for k in range(i, j+1):
+                cost = sum(freq[i:j+1]) + (dp[i][k-1] if k > i else 0) + (dp[k+1][j] if k < j else 0)
+                dp[i][j] = min(dp[i][j], cost)
+    
+    return dp[0][n-1]
+
+# Floyd algorithm
+def floyd_algorithm(graph):
+    n = len(graph)
+    dist = graph
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+    return dist
