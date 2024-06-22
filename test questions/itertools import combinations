@@ -1,0 +1,21 @@
+from itertools import combinations
+
+def fourSum(nums, target):
+    n = len(nums)
+    result = []
+    for a, b, c, d in combinations(range(n), 4):
+        if nums[a] + nums[b] + nums[c] + nums[d] == target:
+            result.append([nums[a], nums[b], nums[c], nums[d]])
+    return result
+
+# Example 1
+nums1 = [1, 0, -1, 0, -2, 2]
+target1 = 0
+output1 = fourSum(nums1, target1)
+print(output1)
+
+# Example 2
+nums2 = [2, 2, 2, 2, 2]
+target2 = 8
+output2 = fourSum(nums2, target2)
+print(output2)
