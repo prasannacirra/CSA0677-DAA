@@ -1,0 +1,12 @@
+def containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff):
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+            if i != j and abs(i - j) <= indexDiff and abs(nums[i] - nums[j]) <= valueDiff:
+                return True
+    return False
+
+# Example
+nums = [1, 2, 3, 1]
+indexDiff = 3
+valueDiff = 0
+print(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff))  # Output: True
