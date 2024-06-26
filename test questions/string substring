@@ -1,0 +1,13 @@
+def string_substrings(words):
+    result = []
+    for word in words:
+        for other_word in words:
+            if word != other_word and word in other_word:
+                result.append(word)
+                break
+    return list(set(result))
+
+# Example
+words = ["mass", "as", "hero", "superhero"]
+output = string_substrings(words)
+print(output)
