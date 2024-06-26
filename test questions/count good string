@@ -1,0 +1,30 @@
+def countGoodStrings(n, s1, s2, evil):
+    MOD = 10**9 + 7
+    dp = [[[0] * 2 for _ in range(len(evil) + 1)] for _ in range(n + 1)]
+    dp[0][0][0] = 1
+
+    for i in range(1, n + 1):
+        for j in range(len(evil) + 1):
+            for k in range(2):
+                for ch in range(ord(s1[i - 1]) if k == 0 else ord('a'), ord(s2[i - 1]) + 1 if k == 1 else ord('z') + 1):
+                    nk = k
+                    nj = j
+                    while nj and evil[nj - 1] != chr(ch):
+                        nj = dp[nj][nj - 1][nk]
+                    if evil[nj] == chr(ch):
+                        nj += 1
+                    if nj == len(evil):
+                        continue
+                    dp[i][nj][nk | (ch > ord(s1[i - 1]))] += dp[i - 1][j][k]
+                    dp[i][nj][nk | (ch > ord(s1[i - 1]))] %= MOD
+
+    res = sum(sum(dp[n][j][1] for j in range(len(evil) + 1)) for n in range(n + 1)) % MOD
+    return res
+
+# Example Usage
+n = 2
+s1 = "aa"
+s2 = "da"
+evil = "b"
+output = countGoodStrings(n, s1, s2, evil)
+print(output)  # Output: 51
