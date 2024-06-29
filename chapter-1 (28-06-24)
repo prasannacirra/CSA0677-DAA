@@ -1,0 +1,309 @@
+1)
+# Expected Outputs
+output_1 = find_max_element(test_case_1)
+output_2 = find_max_element(test_case_2)
+output_3 = find_max_element(test_case_3)
+
+print(output_1)
+print(output_2)
+print(output_3)
+
+6)
+def find_max_in_sorted_list(input_list):
+    if not input_list:
+        return None  # or return an appropriate message indicating that the list is empty
+    sorted_list = sorted(input_list)
+    return sorted_list[-1]
+
+# Test Cases
+# Empty List
+assert find_max_in_sorted_list([]) == None
+
+# Single Element List
+assert find_max_in_sorted_list([5]) == 5
+
+# All Elements are the Same
+assert find_max_in_sorted_list([3, 3, 3, 3, 3]) == 3
+
+7)
+def get_unique_elements(input_list):
+    return list(set(input_list))
+
+# Test Cases
+# Some Duplicate Elements
+input_list1 = [3, 7, 3, 5, 2, 5, 9, 2]
+print(get_unique_elements(input_list1))  # Output: [2, 3, 5, 7, 9]
+
+# Negative and Positive Numbers
+input_list2 = [-1, 2, -1, 3, 2, -2]
+print(get_unique_elements(input_list2))  # Output: [-2, -1, 2, 3]
+
+# List with Large Numbers
+input_list3 = [1000000, 999999, 1000000]
+print(get_unique_elements(input_list3))  # Output: [1000000, 999999]
+
+8)
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+
+# Time Complexity Analysis:
+# Best Case: O(n)
+# Average Case: O(n^2)
+# Worst Case: O(n^2)
+9)
+def binary_search(arr, x):
+    low = 0
+    high = len(arr) - 1
+
+    while low <= high:
+        mid = low + (high - low) // 2
+
+        if arr[mid] == x:
+            return f"Element {x} is found at position {mid}"
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return f"Element {x} is not found"
+
+# Test Case
+arr = [3, 4, 6, -9, 10, 8, 9, 30]
+key1 = 10
+key2 = 100
+
+print(binary_search(arr, key1))
+print(binary_search(arr, key2))
+
+10)
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+nums = [12, 4, 7, 1, 9, 3]
+sorted_nums = merge_sort(nums)
+print(sorted_nums)
+2)
+def calculate_indices(nums1, nums2):
+    answer1 = sum(1 for i in nums1 if i in nums2)
+    answer2 = sum(1 for i in nums2 if i in nums1)
+    return [answer1, answer2]
+
+# Example 1
+nums1 = [2, 3, 2]
+nums2 = [1, 2]
+print(calculate_indices(nums1, nums2))  # Output: [2, 1]
+
+# Example 2
+nums1 = [4, 3, 2, 3, 1]
+nums2 = [2, 2, 5, 2, 3, 6]
+print(calculate_indices(nums1, nums2))  # Output: [3, 4]3)
+def sum_of_distinct_counts(nums):
+    result = 0
+    for i in range(len(nums)):
+        for j in range(i, len(nums)):
+            distinct_count = len(set(nums[i:j+1]))
+            result += distinct_count ** 2
+    return result
+
+# Example
+nums = [1, 2, 1]
+output = sum_of_distinct_counts(nums)
+print(output)4)
+from collections import Counter
+
+def count_pairs(nums, k):
+    count = 0
+    num_freq = Counter(nums)
+ for num, freq in num_freq.items():
+        count += freq * (freq - 1) // 2
+    
+    return count
+
+# Example 1
+nums1 = [3, 1, 2, 2, 2, 1, 3]
+k1 = 2
+output1 = count_pairs(nums1, k1)
+print(output1)  # Output: 4
+
+# Example 2
+nums2 = [1, 2, 3, 4]
+k2 = 1
+output2 = count_pairs(nums2, k2)
+print(output2)  # Output: 05)
+def find_max_element(input_list):
+    return max(input_list)
+
+# Test Cases
+test_case_1 = [1, 2, 3, 4, 5]
+test_case_2 = [7, 7, 7, 7, 7]
+test_case_3 = [-10, 2, 3, -4, 5]
+
+# Expected Outputs
+output_1 = find_max_element(test_case_1)
+output_2 = find_max_element(test_case_2)
+output_3 = find_max_element(test_case_3)
+
+print(output_1)
+print(output_2)
+print(output_3)
+11)
+def findPaths(m, n, N, i, j):
+    MOD = 10**9 + 7
+    dp = [[0] * n for _ in range(m)]
+    dp[i][j] = 1
+    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    
+    count = 0
+    for _ in range(N):
+        temp = [[0] * n for _ in range(m)]
+        for r in range(m):
+            for c in range(n):
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < m and 0 <= nc < n:
+                        temp[nr][nc] = (temp[nr][nc] + dp[r][c]) % MOD
+                    else:
+                        count = (count + dp[r][c]) % MOD
+        dp = temp
+    
+    return count
+
+# Example 1
+m, n, N, i, j = 2, 2, 2, 0, 0
+print(findPaths(m, n, N, i, j))  # Output: 6
+
+# Example 2
+m, n, N, i, j = 1, 3, 3, 0, 1
+print(findPaths(m, n, N, i, j))  # Output: 12
+12)
+def rob(nums):
+    def rob_range(start, end):
+        rob_next, rob_curr = 0, 0
+        for i in range(start, end):
+            rob_next, rob_curr = max(rob_curr + nums[i], rob_next), rob_next
+        return rob_next
+
+    if len(nums) == 1:
+        return nums[0]
+    return max(rob_range(0, len(nums) - 1), rob_range(1, len(nums)))
+
+# Examples
+nums1 = [2, 3, 2]
+nums2 = [1, 2, 3, 1]
+
+print("The maximum money you can rob without alerting the police is:", rob(nums1))  # Output: 3
+print("The maximum money you can rob without alerting the police is:", rob(nums2))  # Output: 4
+13)
+def climb_stairs(n):
+    if n == 1:
+        return 1
+    first, second = 1, 2
+    for _ in range(3, n + 1):
+        third = first + second
+        first = second
+        second = third
+    return second
+
+# Examples
+print(climb_stairs(4))  # Output: 5
+print(climb_stairs(3))  # Output: 314)
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [[1] * n for _ in range(m)]
+        
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        
+        return dp[m-1][n-1]
+
+# Examples
+sol = Solution()
+print(sol.uniquePaths(7, 3))  # Output: 28
+print(sol.uniquePaths(3, 2))  # Output: 315)
+def largeGroupPositions(s):
+    result = []
+    start = 0
+    for i in range(len(s)):
+        if i == len(s) - 1 or s[i] != s[i + 1]:
+            if i - start + 1 >= 3:
+                result.append([start, i])
+            start = i + 1
+    return result
+
+# Example 1
+s1 = "abbxxxxzzy"
+print(largeGroupPositions(s1))  # Output: [[3, 6]]
+
+# Example 2
+s2 = "abc"
+print(largeGroupPositions(s2))  # Output: []16)
+def game_of_life(board):
+    def count_live_neighbors(board, i, j):
+        count = 0
+        for x in range(-1, 2):
+            for y in range(-1, 2):
+                if x == 0 and y == 0:
+                    continue
+                if 0 <= i + x < len(board) and 0 <= j + y < len(board[0]):
+                    count += board[i + x][j + y] & 1
+        return count
+
+    m, n = len(board), len(board[0])
+    for i in range(m):
+        for j in range(n):
+            live_neighbors = count_live_neighbors(board, i, j)
+            if board[i][j] == 1 and (live_neighbors < 2 or live_neighbors > 3):
+                board[i][j] = 2
+            if board[i][j] == 0 and live_neighbors == 3:
+                board[i][j] = -1
+
+    for i in range(m):
+        for j in range(n):
+            board[i][j] >>= 1
+
+    return board
+
+# Example 1
+board1 = [[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]]
+print(game_of_life(board1))  # Output: [[0, 0, 0], [1, 0, 1], [0, 1, 1], [0, 1, 0]]
+
+# Example 2
+board2 = [[1, 1], [1, 0]]
+print(game_of_life(board2))  # Output: [[1, 1], [1, 1]]
+
+17)
+def champagneTower(poured, query_row, query_glass):
+    A = [[0] * k for k in range(1, 102)]
+    A[0][0] = poured
+    for i in range(query_row + 1):
+        for j in range(i + 1):
+            q = (A[i][j] - 1.0) / 2.0
+            if q > 0:
+                A[i + 1][j] += q
+                A[i + 1][j + 1] += q
+    return min(1, A[query_row][query_glass])
