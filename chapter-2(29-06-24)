@@ -1,0 +1,305 @@
+1)
+# An empty list
+empty_list = []
+
+# A list with one element
+single_element_list = [1]
+
+# A list with all identical elements
+identical_elements_list = [7, 7, 7, 7]
+
+# A list with negative numbers
+negative_numbers_list = [-5, -1, -3, -2, -4]
+
+# Test Cases
+# Input: []
+# Expected Output: []
+assert empty_list == []
+
+# Input: [1]
+# Expected Output: [1]
+assert single_element_list == [1]
+
+# Input: [7, 7, 7, 7]
+# Expected Output: [7, 7, 7, 7]
+assert identical_elements_list == [7, 7, 7, 7]
+
+# Input: [-5, -1, -3, -2, -4]
+# Expected Output: [-5, -4, -3, -2, -1]
+assert negative_numbers_list == [-5, -4, -3, -2, -1]
+  2)
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i+1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+
+# Sorting a Random Array
+random_array = [5, 2, 9, 1, 5, 6]
+sorted_random_array = selection_sort(random_array)
+print("Random Array Sorted:", sorted_random_array)
+
+# Sorting a Reverse Sorted Array
+reverse_sorted_array = [10, 8, 6, 4, 2]
+sorted_reverse_array = selection_sort(reverse_sorted_array)
+print("Reverse Sorted Array Sorted:", sorted_reverse_array)
+
+# Sorting an Already Sorted Array
+already_sorted_array = [1, 2, 3, 4, 5]
+sorted_already_sorted_array = selection_sort(already_sorted_array)
+print("Already Sorted Array Sorted:", sorted_already_sorted_array)
+  3)
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        already_sorted = True
+        for j in range(n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                already_sorted = False
+        if already_sorted:
+            break
+    return arr
+  4)
+def insertion_sort_with_duplicates(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+
+# Test Cases
+test_cases = [
+    [64, 25, 12, 22, 11],
+    [29, 10, 14, 37, 13],
+    [3, 5, 2, 1, 4],
+    [1, 2, 3, 4, 5],
+    [5, 4, 3, 2, 1],
+    [3, 1, 4, 1, 5, 9, 2, 6, 5, 3],
+    [5, 5, 5, 5, 5],
+    [2, 3, 1, 3, 2, 1, 1, 3]
+]
+
+for idx, test in enumerate(test_cases):
+    sorted_arr = insertion_sort_with_duplicates(test)
+    print(
+5)
+def findKthPositive(arr, k):
+    missing = []
+    i = 1
+    while len(missing) < k:
+        if i not in arr:
+            missing.append(i)
+        i += 1
+    return missing[-1]
+
+# Example 1
+arr1 = [2, 3, 4, 7, 11]
+k1 = 5
+output1 = findKthPositive(arr1, k1)
+print(output1)  # Output: 9
+
+# Example 2
+arr2 = [1, 2, 3, 4]
+k2 = 2
+output2 = findKthPositive(arr2, k2)
+print(output2)  # Output: 6
+6)
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] < nums[mid + 1]:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+  7)
+def strStr(haystack, needle):
+    if needle in haystack:
+        return haystack.index(needle)
+    else:
+        return -1
+
+# Example 1
+haystack = "sadbutsad"
+needle = "sad"
+print(strStr(haystack, needle))  # Output: 0
+
+# Example 2
+haystack = "leetcode"
+needle = "leeto"
+print(strStr(haystack, needle))  # Output: -1
+  8)
+def stringMatching(words):
+    return [word for word in words if any(other_word != word and other_word.find(word) != -1 for other_word in words)]
+
+# Example 1
+words1 = ["mass", "as", "hero", "superhero"]
+print(stringMatching(words1))  # Output: ["as", "hero"]
+
+# Example 2
+words2 = ["leetcode", "et", "code"]
+print(stringMatching(words2))  # Output: ["et", "code"]
+
+# Example 3
+words3 = ["blue", "green", "bu"]
+print(stringMatching(words3))  # Output: []
+  9)
+import math
+
+def euclidean_distance(point1, point2):
+    return math.sqrt((point1[0] - point2[0])*2 + (point1[1] - point2[1])*2)
+
+def closest_pair_of_points(points):
+    min_distance = float('inf')
+    closest_pair = None
+
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            distance = euclidean_distance(points[i], points[j])
+            if distance < min_distance:
+                min_distance = distance
+                closest_pair = (points[i], points[j])
+
+    return closest_pair, min_distance
+
+# Input points
+points = [(1, 2), (4, 5), (7, 8), (3, 1)]
+
+# Find the closest pair of points and minimum distance
+closest_pair, min_distance = closest_pair_of_points(points)
+
+# Output the result
+print(f"Closest pair: {closest_pair[0]} - {closest_pair[1]} Minimum distance: {min_distance}")
+  10)
+import math
+
+def euclidean_distance(point1, point2):
+    return math.sqrt((point1[0] - point2[0])*2 + (point1[1] - point2[1])*2)
+
+def closest_pair_brute_force(points):
+    min_distance = float('inf')
+    closest_pair = None
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            distance = euclidean_distance(points[i], points[j])
+            if distance < min_distance:
+                min_distance = distance
+                closest_pair = (points[i], points[j])
+    return closest_pair
+
+# Sample set of points
+sample_points = [(10, 0), (11, 5), (5, 3), (9, 3.5), (15, 3), (12.5, 7), (6, 6.5), (7.5, 4.5)]
+
+# Find the closest pair of points
+closest_pair = closest_pair_brute_force(sample_points)
+print(closest_pair)
+11)
+from itertools import combinations
+
+def orientation(p, q, r):
+    val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
+    if val == 0:
+        return 0
+    return 1 if val > 0 else -1
+
+def convex_hull(points):
+    n = len(points)
+    if n < 3:
+        return points
+
+    hull = []
+    for p, q in combinations(points, 2):
+        side = [r for r in points if orientation(p, q, r) == 1]
+        if len(side) == n - 2:
+            hull.extend(side)
+
+    return hull
+
+# Input points
+points = [(1, 1), (4, 6), (8, 1), (0, 0), (3, 3)]
+
+# Calculate Convex Hull
+convex_hull_points = convex_hull(points)
+
+print("Convex Hull:", convex_hull_points)
+  12)
+from itertools import combinations
+
+def orientation(p, q, r):
+    val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
+    if val == 0:
+        return 0
+    return 1 if val > 0 else -1
+
+def convex_hull(points):
+    n = len(points)
+    if n < 3:
+        return points
+
+    hull = []
+    for p, q in combinations(points, 2):
+        side = [r for r in points if orientation(p, q, r) == 1]
+        if len(side) == n - 2:
+            hull.extend(side)
+
+    return hull
+
+# Input points
+points = [(1, 1), (4, 6), (8, 1), (0, 0), (3, 3)]
+
+# Calculate Convex Hull
+convex_hull_points = convex_hull(points)
+
+print("Convex Hull:", convex_hull_points)
+  13)
+def total_value(items, values):
+    return sum(values[i] for i in items)
+
+def is_feasible(items, weights, capacity):
+    return sum(weights[i] for i in items) <= capacity
+
+def knapsack_01_exhaustive_search(items, weights, values, capacity):
+    n = len(items)
+    max_value = 0
+    optimal_selection = []
+
+    for i in range(1 << n):
+        selected_items = [j for j in range(n) if (i & (1 << j))]
+        
+        if is_feasible(selected_items, weights, capacity):
+            total = total_value(selected_items, values)
+            if total > max_value:
+                max_value = total
+                optimal_selection = selected_items
+
+    return optimal_selection, max_value
+
+# Test Case 1
+items_1 = [0, 1, 2]
+weights_1 = [2, 3, 1]
+values_1 = [4, 5, 3]
+capacity_1 = 4
+optimal_selection_1, total_value_1 = knapsack_01_exhaustive_search(items_1, weights_1, values_1, capacity_1)
+print("Test Case 1:")
+print("Optimal Selection:", optimal_selection_1)
+print("Total Value:", total_value_1)
+
+# Test Case 2
+items_2 = [0, 1, 2, 3]
+weights_2 = [1, 2, 3, 4]
+values_2 = [2, 4, 6, 3]
+capacity_2 = 6
+optimal_selection_2, total_value_2 = knapsack_01_exhaustive_search(items_2, weights_2, values_2, capacity_2)
+print("\nTest Case 2:")
+print("Optimal Selection:", optimal_selection_2)
+print("Total Value:", total_value_2)
